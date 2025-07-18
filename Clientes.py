@@ -34,3 +34,34 @@ def mostrarClientes():
     
         except mysql.connector.Error as error: 
             print("Error al mostrar los datos {}".format(error))
+
+
+def modificarClientes(IdUsuario,nombres, apellidos, sexo):
+
+        try: 
+            cone = CConexion.ConexionBaseDeDatos()
+            cursor= cone.cursor()
+            sql = "UPDATE usuarios SET usuarios.nombres = %s, usuarios.apellidos = %s, usuarios.sexo = %sWhere usuarios.id = %s; "
+            valores = (nombres,apellidos,sexo, IdUsuario)
+            cursor.execute(sql, valores)
+            cone.commit()
+            print(cursor.rowcount,"Registro actualizado")
+    
+        except mysql.connector.Error as error: 
+            print("Error de actualizacion de datos {}".format(error))
+
+
+def eliminarClientes(IdUsuario):
+
+        try: 
+            cone = CConexion.ConexionBaseDeDatos()
+            cursor= cone.cursor()
+            sql = "DELETE from usuarios WHERE usuarios.id = %s;"
+            valores = (IdUsuario,)
+            cursor.execute(sql, valores)
+            cone.commit()
+            print(cursor.rowcount,"Registro eliminado")
+            cone.close()
+    
+        except mysql.connector.Error as error: 
+            print("Error de eliminacion de datos {}".format(error))
